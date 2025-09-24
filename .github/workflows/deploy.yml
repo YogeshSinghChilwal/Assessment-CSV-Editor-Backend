@@ -23,6 +23,19 @@ jobs:
             export PATH=$PATH:/usr/bin:/usr/local/bin
             cd ~/Assessment-CSV-Editor-Backend
             git pull origin main
+
+            if ! command -v pnpm &> /dev/null
+            then
+              echo "Installing pnpm..."
+              npm install -g pnpm
+            fi
+
+            if ! command -v pm2 &> /dev/null
+            then
+              echo "Installing pm2..."
+              npm install -g pm2
+            fi
+
             pnpm install
             pnpm build
             pm2 restart server
