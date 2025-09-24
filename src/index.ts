@@ -10,6 +10,10 @@ app.get("/health", (req, res) => {
   res.send("Health is OK!");
 });
 
+app.get("/check", (req, res) => {
+    res.send("CI/CD working!")
+})
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
