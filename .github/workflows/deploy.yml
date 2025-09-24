@@ -22,6 +22,7 @@ jobs:
           script: |
             cd ~/Assessment-CSV-Editor-Backend
             git pull origin main
+            npm install -g pnpm pm2
             pnpm install
             pnpm build
             pm2 restart server
