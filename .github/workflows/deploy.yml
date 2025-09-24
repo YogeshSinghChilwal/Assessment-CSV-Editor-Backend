@@ -20,22 +20,24 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            export PATH=$PATH:/usr/bin:/usr/local/bin
+            # Load NVM so node/npm/pnpm are available
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm use 22
+
             cd ~/Assessment-CSV-Editor-Backend
             git pull origin main
 
-            if ! command -v pnpm &> /dev/null
-            then
+            if ! command -v pnpm &> /dev/null; then
               echo "Installing pnpm..."
               npm install -g pnpm
             fi
 
-            if ! command -v pm2 &> /dev/null
-            then
+            if ! command -v pm2 &> /dev/null; then
               echo "Installing pm2..."
               npm install -g pm2
             fi
 
             pnpm install
             pnpm build
-            pm2 restart server
+            pm2 restart server || pm2 start dist/index.js --name server
